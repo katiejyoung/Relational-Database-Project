@@ -1,0 +1,123 @@
+
+		{% extends "template.html" %}
+    	{% block content %}
+		<div class="topPage">
+            <h2>Films by Director</h2>
+        </div>
+        
+        <div>
+    
+            <div class="leftBox">
+                    <div class="entityHeader">
+                            <div><h3>Select a Director to Filter or Update</h3></div>
+                    </div>
+                    <form action="#" method="post">
+                            <fieldset >
+                                    <legend>Select Director</legend>
+                                    <select name="director">
+                                        <option value="director">Tarantino</option>
+                                        <option value="director">Spielberg</option>
+                                        <option value="director">Lynch</option>
+                                    </select>
+                                    <br/>
+                                <br/>
+                                <label>First Name:
+                                <input type="text" name="title" size="30" maxlength="50">
+                                </label>
+                                <br/><br/>
+                                <label>Last Name:
+                                <input type="text" name="title" size="30" maxlength="50">
+                                </label>
+                                <br/><br/>
+                                <label>Year Born:
+                                        <input type="number" name="numerical_input" size="30" maxlength="100">
+                                </label>
+                                <br/><br/>
+                                <label>Year Died:
+                                        <input type="number" name="numerical_input" size="30" maxlength="100">
+                                </label>
+                                <br/>
+                                <br/>
+                                <input type="submit" value="Submit" />
+                            </fieldset>
+                    </form>
+            </div>
+            <div class="rightBox">
+                <div><h3>Films With Selected Director</h3></div>
+                <table>
+                    <tbody >
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Language</th>
+                            <th>Year Released</th>
+                            <th>Runtime</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Mean Girls</td>
+                            <td>English</td>
+                            <td>2021</td>
+                            <td>127</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>Star Wars</td>
+                            <td>English</td>
+                            <td>2021</td>
+                            <td>130</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bottomBox">
+            <div><h3>Add a Contributor Here</h3></div>
+            <form action="#" method="POST">
+                <fieldset>
+                    <p>Select Film</p>
+                        <select name="film">
+                            <option value="film">Mean Girls</option>
+                            <option value="film">Star Wars</option>
+                        </select>
+                    <p>Select Director</p>
+                        <select name="director">
+                            <option value="director">Tarantino</option>
+                            <option value="director">Spielberg</option>
+                            <option value="director">Lynch</option>
+                        </select>
+                        <br/><br/><br/>
+                    <input type="submit" value="Submit"/>
+                    <br/>
+                </fieldset>
+            </form>
+        </div>
+        <div class = "bottomBox">
+                <div><h3>Add a Director to the Database</h3></div>
+                <form action="#" method="post" style="text-align: left;">
+                    <fieldset>
+                        <br/>
+                        <label>First Name:
+                          <input type="text" name="title" size="30" maxlength="50">
+                        </label>
+                        <br/><br/>
+                        <label>Last Name:
+                          <input type="text" name="title" size="30" maxlength="50">
+                        </label>
+                        <br/><br/>
+                        <label>Year Born:
+                                <input type="number" name="numerical_input" size="30" maxlength="100">
+                        </label>
+                        <br/><br/>
+                        <label>Year Died:
+                                <input type="number" name="numerical_input" size="30" maxlength="100">
+                        </label>
+                        <br/>
+                        <br/>
+                        <input type="submit" value="Submit" />
+                    </fieldset>
+                </form>
+            </div>
+
+		{% endblock %}

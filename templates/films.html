@@ -1,0 +1,66 @@
+    {% extends "template.html" %}
+    	{% block content %}
+		 <div class="topPage">
+            <h2>Films in Database</h2>
+        </div>
+
+        <div>
+            <table class= "filmTable">
+                <tbody >
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Language</th>
+                        <th>Year Released</th>
+                        <th>Runtime</th>
+                        <th>Delete a Film</th>
+                    </tr>
+		    {% for r in rows %}
+		    <tr>
+		      <td> {{ r.0 }}</td>
+		      <td> {{ r[1] }}</td>
+		      <td> {{ r[2] }}</td>
+		      <td> {{ r[3] }}</td>
+		      <td> {{ r[4] }}</td>
+		      <td><button class="deleteButton">DELETE</button></td>
+		    </tr>
+		    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <form action="#" method="post" class="addFilm" style="width: 50%;">
+                <fieldset>
+                    <legend>Add a Film to the Database</legend>
+                    <br/>
+                    <label>Title:
+                      <input type="text" name="title" size="30" maxlength="100">
+                    </label>
+
+                    <br/>
+                    <p>Language</p>
+                    <label>
+                        <input type="radio" name="language" value="yes" />English
+                    </label>
+                    <br/>
+                    <label>
+                        <input type="radio" name="language" value="yes" />Spanish</label>
+                    <br/>
+                    <label>
+                        <input type="radio" name="language" value="yes" />French</label>
+                    <br/><br/>
+                    <label>Year:
+                            <input type="number" name="numerical_input" size="30" maxlength="100">
+                    </label>
+                    <br/>
+                    <br/>
+                    <label>Runtime (minutes):
+                      <input type="number" name="numerical_input" size="50" maxlength="100">
+                    </label>
+                    <br/><br/>
+
+                </fieldset>
+            </form>
+        </div>
+
+	{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "template.html" %}
+    	{% block content %}
+		<div class="topPage">
+            <h2>Films by Genre</h2>
+        </div>
+        
+        <div>
+    
+            <div class="leftBox">
+                    <div class="entityHeader">
+                            <div><h3>Select a Genre Below</h3></div>
+                    </div>
+                    <form action="{{ url_for('genre', id=genre_id) }}" method="POST">
+                            <fieldset >
+                              <legend>Select Genre</legend>
+                              <select name="genre_select">
+				{% for g in genres %}
+				<option value="{{ g[0] }}">{{ g[1] }}</option>
+				{% endfor %}
+                                    </select>
+                                    <br/><br/><br/>
+                                    <input type="submit" value="Submit"/>
+                            </fieldset>
+                    </form>
+            </div>
+            <div class="rightBox">
+                <div><h3>Films in the Selected Genre</h3></div>
+                <table>
+                    <tbody >
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Language</th>
+                            <th>Year Released</th>
+                            <th>Runtime</th>
+			    <th>Delete a Film</th>
+                        </tr>
+			 {% for r in rows %}
+			<tr>
+			  <td> {{ r.0 }}</td>
+			  <td> {{ r[1] }}</td>
+			  <td> {{ r[2] }}</td>
+			  <td> {{ r[3] }}</td>
+			  <td> {{ r[4] }}</td>
+			  <td><button class="deleteButton">DELETE</button></td>
+			</tr>
+			{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bottomBox">
+            <div><h3>Don't see a film in this genre? Add it here.</h3></div>
+            <form action="#" method="POST">
+                <fieldset>
+                    <p>Select Film</p>
+                        <select name="film">
+                            <option value="film">Mean Girls</option>
+                            <option value="film">Star Wars</option>
+                        </select>
+                    <p>Select Genre</p>
+                        <select name="genre">
+                            <option value="genre">Action</option>
+                            <option value="genre">Romance</option>
+                            <option value="genre">SciFi</option>
+                        </select>
+                        <br/><br/><br/>
+                    <input type="submit" value="Submit"/>
+                    <br/>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class = "bottomBox">
+                <div><h3>Add a Genre to the Database</h3></div>
+                <form action="#" method="post" style="text-align: left;">
+                    <fieldset>
+                        <br/>
+                        <label>Title:
+                          <input type="text" name="title" size="50" maxlength="100">
+                        </label>
+                        <br/><br/>
+                        <label>Description:
+                                <input type="text" name="title" size="50" maxlength="1000">
+                        </label>
+                        <br/><br/>
+                        <input type="submit" value="Submit" />
+                    </fieldset>
+                </form>
+            </div>
+
+		{% endblock %}

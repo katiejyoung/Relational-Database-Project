@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+   <meta charset="utf-8">
+   <title>Film RDB</title>
+   <link rel= "stylesheet" type= "text/css" href= "{{url_for('static',filename='css/style.css') }}">
+</head>
+ <body>
+        <strong>
+          <div class = "sidenav">
+          	<a href="{{url_for('home') }}">Home</a>
+		<a href="{{url_for('films') }}">Films</a>
+			<a href="{{url_for('genre') }}">Films by Genre</a>
+			<a href="{{url_for('awards') }}">Films by Award</a>
+			<a href="{{url_for('actors') }}">Films by Actor</a>
+			<a href="{{url_for('directors') }}">Films by Director</a>
+           </div>
+        </strong>
+    {% block content %}{% endblock %}
+ </body>
+</html>

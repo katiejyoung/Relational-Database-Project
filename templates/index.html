@@ -1,0 +1,78 @@
+
+		{% extends "template.html" %}
+    	{% block content %}
+		<div class="topPage">
+            <h2>Project Group 8: Film Tracker</h2>
+            <h4 id="sub-title">Eric Newton & Katie Young</h4>
+        </div>
+
+        <div class="summary">
+            <div><h3>Project Outline</h3></div>
+            <div id="summary-text">
+                <p>We will be creating a database representing a film catalog. This catalog can be used to track films, their genres, awards they received, and directors and starring actors. The database stores various attributes for each film, genre, award, director and actor that we believe will be useful in providing context for the various relationships listed below. With multiple many-to-many relationships, plenty of data to work with and several attribute-heavy entities, the complexity of this project is conducive to learning in the context of this course.</p>
+            </div>
+            
+        </div>
+        <div class="line-separator"></div>
+        <div class="summary">
+                <div>
+                    <h3>Database Entities & Attributes</h3>
+                </div>
+                <div id="relationship-text">
+                    <ul>
+                        <li><strong>Films:</strong></li>
+                        <ul>
+                            <li>ID: <i>A unique identifier that is automatically assigned to each film as it is recorded in the database. This integer is automatically incremented and serves as the primary key.</i></li>
+                            <li>Title: <i>Title of the film, a string of maximum 100 characters. It cannot be blank and there is no default.</i></li>
+                            <li>Language: <i>Language of the film, a string of maximum 50 characters. It cannot be blank but the default language is “English”.</i></li>
+                            <li>Year: <i>Year the film was released, an integer.</i></li>
+                            <li>Runtime: <i>Length of the film in minutes, an integer.</i></li>
+                        </ul>
+                            
+                        <li><strong>Actors:</strong></li>
+                        <ul>
+                            <li>ID: <i>A unique identifier that is automatically assigned to each actor as it is recorded in the database. This integer is automatically incremented and serves as the primary key.</i></li>
+                            <li>First Name: <i>First name of the actor which is a string of maximum 50 characters. It cannot be blank and there is no default.</i></li>
+                            <li>Last Name: <i>Last name of the actor which is a string of maximum 50 characters. It cannot be blank and there is no default.</i></li>
+                            <li>Year Born: <i>Actor’s birth year which is an integer. It cannot be blank and there is no default.</i></li>
+                            <li>Year Died: <i>Actor’s death year (if applicable) which is an integer. The default is NULL.</i></li>
+                        </ul>
+
+                        <li><strong>Directors:</strong></li>
+                        <ul>
+                            <li>ID: <i>A unique identifier that is automatically assigned to each director as it is recorded in the database. This integer is automatically incremented and serves as the primary key.</i></li>
+                            <li>First Name: <i>First name of the director which is a string of maximum 50 characters. It cannot be blank and there is no default.</i></li>
+                            <li>Last Name: <i>Last name of the director which is a string of maximum 50 characters. It cannot be blank and there is no default.</i></li>
+                            <li>Year Born: <i>Director’s birth year which is an integer. It cannot be blank and there is no default.</i></li>
+                            <li>Year Died: <i>Director’s death year (if applicable) which is an integer. The default is NULL.</i></li>
+                        </ul>
+
+                        <li><strong>Genres:</strong></li>
+                        <ul>
+                            <li>ID: <i>A unique identifier that is automatically assigned to each genre as it is recorded in the database. This integer is automatically incremented and serves as the primary key.</i></li>
+                            <li>Name: <i>A string of maximum 50 characters that names the genre. It cannot be blank and there is no default.</i></li>
+                            <li>Description: <i>A string of maximum 1000 characters that describes the genre. NULL if no description.</i></li>
+                        </ul>
+                        <li><strong>Awards:</strong></li>
+                        <ul>
+                            <li>ID: <i>A unique identifier that is automatically assigned to each award as it is recorded in the database. This integer is automatically incremented and serves as the primary key.</i></li>
+                            <li>Title: <i>Title of the award, a string of maximum 100 characters. It cannot be blank and there is no default.</i></li>
+                            <li>Year: <i>Year the award was received, an integer. NULL if not awarded.</i></li>
+                        </ul>
+                    </ul>
+                </div>
+        </div>
+        <div class="line-separator"></div>
+        <div class="summary">
+                <div><h3>Relationship Breakdown</h3></div>
+                <div id="relationship-text">
+                    <ul>
+                        <li>Film to Actor (many-to-many): <i>a single actor can play in many films and many actors can star in a single film. Many actors can also star in many films.</i></li>
+                        <li>Film to Director (many-to-many): <i>a single director can direct many films and many directors can direct a single film. Many directors can also direct many films.</i></li>
+                        <li>Film to Genre (many-to-many): <i>a film is assigned only one genre and many films can be categorized under any given genre.</i></li>
+                        <li>Film to Award (many-to-many): <i>a single film can receive many awards and many films can receive the same or many different awards.</i></li>
+                    </ul>
+                </div>
+        </div>
+
+		{% endblock %}
