@@ -25,10 +25,10 @@ def films():
 #    print(result)
 #    return render_template('genre.html', rows=result)
 
-@webapp.route('/genre/<id>', methods=['POST','GET'])
-def genre(id):
+@webapp.route('/genre', methods=['POST','GET'])
+def genre():
     if request.method == 'POST':
-        genre_selected = request.form.get('genre_select')
+        genre_selected = request.form.get('genre_select');
     else:
         genre_selected = 1
         
