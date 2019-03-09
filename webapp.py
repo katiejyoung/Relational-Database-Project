@@ -17,14 +17,6 @@ def films():
     print(result)
     return render_template('films.html', rows=result)
 
-#def films_by_genre():
-#    genre = request.form.get('genre');
-#    db_connection = connect_to_database()
-#    query = "SELECT id, title, language, year, runtime from film WHERE genre = %s" % (genre)
-#    result = execute_query(db_connection, query).fetchall();
-#    print(result)
-#    return render_template('genre.html', rows=result)
-
 @webapp.route('/genre', methods=['POST','GET'])
 def genre():
     if request.method == 'POST':
@@ -40,7 +32,7 @@ def genre():
     result2 = execute_query(db_connection, query2).fetchall();
     return render_template('genre.html', genres=result, genre_id=genre_selected, rows=result2);
 
-@webapp.route('/filmAwards')
+@webapp.route('/awards')
 def awards():
 #    db_connection = connect_to_database()
 #    query = "SELECT id, title, language, year, runtime from film;"
@@ -48,7 +40,7 @@ def awards():
 #    print(result)
     return render_template('awards.html')
 
-@webapp.route('/filmActors')
+@webapp.route('/actors')
 def actors():
 #    db_connection = connect_to_database()
 #    query = "SELECT id, title, language, year, runtime from film;"
@@ -56,7 +48,7 @@ def actors():
 #   print(result)
     return render_template('actors.html')
 
-@webapp.route('/filmDirectors')
+@webapp.route('/directors')
 def directors():
 #    db_connection = connect_to_database()
 #    query = "SELECT id, title, language, year, runtime from film;"
