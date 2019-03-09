@@ -14,11 +14,11 @@
                     <form action="#" method="post">
                             <fieldset >
                                     <legend>Select Award</legend>
-                                    <select name="award">
-                                        <option value="award">Academy</option>
-                                        <option value="award">Pulitzer</option>
-                                        <option value="award">Grammy</option>
-                                    </select>
+                                    <select name="award_select">
+                                        {% for a in awards %}
+                                        <option value="{{ a[0] }}">{{ a[1] }}</option>
+                                        {% endfor %}
+                                        </select>
                                     <br/><br/><br/>
                                     <input type="submit" value="Submit"/>
                             </fieldset>
@@ -35,20 +35,16 @@
                             <th>Year Released</th>
                             <th>Runtime</th>
                         </tr>
+                        {% for r in rows %}
                         <tr>
-                            <td>1</td>
-                            <td>Mean Girls</td>
-                            <td>English</td>
-                            <td>2021</td>
-                            <td>127</td>
+                          <td> {{ r.0 }}</td>
+                          <td> {{ r[1] }}</td>
+                          <td> {{ r[2] }}</td>
+                          <td> {{ r[3] }}</td>
+                          <td> {{ r[4] }}</td>
+                          <td><button class="deleteButton">DELETE</button></td>
                         </tr>
-                        <tr>
-                            <td>0</td>
-                            <td>Star Wars</td>
-                            <td>English</td>
-                            <td>2021</td>
-                            <td>130</td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

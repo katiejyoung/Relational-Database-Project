@@ -28,17 +28,25 @@ def genre():
     query = "SELECT id, name FROM genre;"
     result = execute_query(db_connection, query).fetchall();
     print(result)
-    query2 = "SELECT title FROM film f INNER JOIN film_genres g ON f.id = g.film_id AND g.genre_id = %s" % (genre_selected)
+    query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_genres g ON f.id = g.film_id AND g.genre_id = %s" % (genre_selected)
     result2 = execute_query(db_connection, query2).fetchall();
     return render_template('genre.html', genres=result, genre_id=genre_selected, rows=result2);
 
-@webapp.route('/awards')
+@webapp.route('/awards', methods=['POST','GET'])
 def awards():
-#    db_connection = connect_to_database()
-#    query = "SELECT id, title, language, year, runtime from film;"
-#    result = execute_query(db_connection, query).fetchall();
-#    print(result)
-    return render_template('awards.html')
+    if request.method == 'POST':
+        award_selected = request.form.get('award_select');
+    else:
+        award_selected = 1
+		
+    id = award_selected
+    db_connection = connect_to_database()
+    query = "SELECT id, title FROM award;"
+    result = execute_query(db_connection, query).fetchall();
+    print(result)
+    query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_awards a ON f.id = a.film_id AND a.award_id = %s" % (id)
+    result2 = execute_query(db_connection, query2).fetchall();
+    return render_template('awards.html', awards=result, award_id=award_selected, rows=result2);
 
 @webapp.route('/actors')
 def actors():
