@@ -48,13 +48,21 @@ def awards():
     result2 = execute_query(db_connection, query2).fetchall();
     return render_template('awards.html', awards=result, award_id=award_selected, rows=result2);
 
-@webapp.route('/actors')
+@webapp.route('/actors', methods=['POST','GET'])
 def actors():
-#    db_connection = connect_to_database()
-#    query = "SELECT id, title, language, year, runtime from film;"
-#    result = execute_query(db_connection, query).fetchall();
-#   print(result)
-    return render_template('actors.html')
+    if request.method == 'POST':
+        actor_selected = request.form.get('actor_select');
+    else:
+        actor_selected = 1
+		
+    id = actor_selected
+    db_connection = connect_to_database()
+    query = "SELECT id, last_name FROM actor;"
+    result = execute_query(db_connection, query).fetchall();
+    print(result)
+    query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_actors fa ON f.id = fa.film_id AND fa.actor_id = %s" % (id)
+    result2 = execute_query(db_connection, query2).fetchall();
+    return render_template('actors.html', actors=result, actor_id=actor_selected, rows=result2);
 
 @webapp.route('/directors')
 def directors():
