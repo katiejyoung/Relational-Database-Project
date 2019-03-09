@@ -11,17 +11,17 @@
                     <div class="entityHeader">
                             <div><h3>Select an Actor to Filter or Update</h3></div>
                     </div>
-                    <form action="#" method="post">
+                    <form action="{{ url_for('actors') }}" method="post">
                         <fieldset >
                             <legend>Select Actor</legend>
-                                <select name="actor">
-                                    <option value="actor">Cooper</option>
-                                    <option value="actor">Wilson</option>
-                                    <option value="actor">Pitt</option>
-                                </select>
+                                <select name="actor_select">
+				{% for a in actors %}
+				<option value="{{ a[0] }}">{{ a[1] }}</option>
+				{% endfor %}
+                                    </select>
                             <br/>
                             <br/>
-                            <label>First Name:
+                            <!--<label>First Name:
                             <input type="text" name="title" size="30" maxlength="50">
                             </label>
                             <br/><br/>
@@ -37,7 +37,7 @@
                                     <input type="number" name="numerical_input" size="30" maxlength="100">
                             </label>
                             <br/>
-                            <br/>
+                            <br/>-->
                             <input type="submit" value="Submit" />
                         </fieldset>
                     </form>
@@ -52,21 +52,18 @@
                             <th>Language</th>
                             <th>Year Released</th>
                             <th>Runtime</th>
+			    			<th>Delete a Film</th>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Mean Girls</td>
-                            <td>English</td>
-                            <td>2021</td>
-                            <td>127</td>
-                        </tr>
-                        <tr>
-                            <td>0</td>
-                            <td>Star Wars</td>
-                            <td>English</td>
-                            <td>2021</td>
-                            <td>130</td>
-                        </tr>
+			 {% for r in rows %}
+			<tr>
+			  <td> {{ r.0 }}</td>
+			  <td> {{ r[1] }}</td>
+			  <td> {{ r[2] }}</td>
+			  <td> {{ r[3] }}</td>
+			  <td> {{ r[4] }}</td>
+			  <td><button class="deleteButton">DELETE</button></td>
+			</tr>
+			{% endfor %}
                     </tbody>
                 </table>
             </div>
