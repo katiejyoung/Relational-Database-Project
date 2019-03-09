@@ -31,7 +31,7 @@ def genre():
     query = "SELECT id, name FROM genre;"
     result = execute_query(db_connection, query).fetchall();
     print(result)
-    query2 = "SELECT title FROM film f INNER JOIN film_genres g ON f.id = g.film_id AND g.genre_id = %s" % (genre_selected)
+    query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_genres g ON f.id = g.film_id AND g.genre_id = %s" % (genre_selected)
     result2 = execute_query(db_connection, query2).fetchall();
     return render_template('genre.html', genres=result, genre_id=genre_selected, rows=result2);
 
@@ -94,8 +94,9 @@ def directors():
     db_connection = connect_to_database()
     
     if valid_update_query:
-        update_query = "UPDATE director SET " + update_string + "WHERE id = %s" % (director_selected)
-        execute_query(db_connection, update_query)
+        update_query = "UPDATE director SET " + update_string + "WHERE id = %s" % (director_selected) + ";"
+        webapp.logger.error(update_query)
+        execute_query(db_connection, update_query);
         flash("Entry updated!")
 
         # If the user has not entered a fname, lname, and year_born, this is an invalid query
@@ -108,40 +109,40 @@ def directors():
     print(result)
     
     # Populate Films with Selected Director Table
-    query2 = "SELECT title FROM film f INNER JOIN film_direction d ON f.id = d.film_id AND d.director_id = %s" % (director_selected)
+    query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_direction d ON f.id = d.film_id AND d.director_id = %s" % (director_selected)
     result2 = execute_query(db_connection, query2).fetchall();
     return render_template('directors.html', directors=result, director_id=director_selected, rows=result2);
 
 #display update form and process any updates, using the same function
-@webapp.route('/update_director/', methods=['POST','GET'])
-def update_director(id):
-    db_connection = connect_to_database()
-    if request.method == 'GET':
+#@webapp.route('/update_director/', methods=['POST','GET'])
+#def update_director(id):
+#    db_connection = connect_to_database()
+#    if request.method == 'GET':
 
-        director_query = 'SELECT first_name, last_name, year_born, year_died from director WHERE id = %s' % (id) 
-        director_result = execute_query(db_connection, people_query).fetchone()
+#        director_query = 'SELECT first_name, last_name, year_born, year_died from director WHERE id = %s' % (id) 
+#        director_result = execute_query(db_connection, people_query).fetchone()
 
-        if people_result == None:
-            return "No such person found!"
+#        if people_result == None:
+#            return "No such person found!"
 
-        planets_query = 'SELECT planet_id, name from bsg_planets'
-        planets_results = execute_query(db_connection, planets_query).fetchall();
+#        planets_query = 'SELECT planet_id, name from bsg_planets'
+#        planets_results = execute_query(db_connection, planets_query).fetchall();
 
-        return render_template('people_update.html', planets = planets_results, person = people_result)
-    elif request.method == 'POST':
-        print("Update people!");
-        character_id = request.form['character_id'] 
-        fname = request.form['fname']
-        lname = request.form['lname']
-        age = request.form['age']
-        homeworld = request.form['homeworld']
+#        return render_template('people_update.html', planets = planets_results, person = people_result)
+#    elif request.method == 'POST':
+#        print("Update people!");
+#        character_id = request.form['character_id'] 
+#        fname = request.form['fname']
+#        lname = request.form['lname']
+#        age = request.form['age']
+#        homeworld = request.form['homeworld']
 
-        print(request.form);
+#        print(request.form);
 
-        query = "UPDATE bsg_people SET fname = %s, lname = %s, age = %s, homeworld = %s WHERE character_id = %s"
-        data = (fname, lname, age, homeworld, character_id)
-        result = execute_query(db_connection, query, data)
-        return (str(result.rowcount) + " row(s) updated");
+#        query = "UPDATE bsg_people SET fname = %s, lname = %s, age = %s, homeworld = %s WHERE character_id = %s"
+#        data = (fname, lname, age, homeworld, character_id)
+#        result = execute_query(db_connection, query, data)
+#        return (str(result.rowcount) + " row(s) updated");
 
 #@webapp.route('/add_new_people', methods=['POST','GET'])
 #def add_new_people():
