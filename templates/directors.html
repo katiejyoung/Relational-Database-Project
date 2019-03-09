@@ -1,5 +1,4 @@
-
-		{% extends "template.html" %}
+{% extends "template.html" %}
     	{% block content %}
 		<div class="topPage">
             <h2>Films by Director</h2>
@@ -11,30 +10,30 @@
                     <div class="entityHeader">
                             <div><h3>Select a Director to Filter or Update</h3></div>
                     </div>
-                    <form action="#" method="post">
+                    <form action="{{ url_for('directors') }}" method="POST">
                             <fieldset >
                                     <legend>Select Director</legend>
-                                    <select name="director">
-                                        <option value="director">Tarantino</option>
-                                        <option value="director">Spielberg</option>
-                                        <option value="director">Lynch</option>
+                                    <select name="director_select">
+                                    {% for d in directors %}
+				    <option value="{{ d[0] }}">{{ d[1] }}</option>
+				    {% endfor %}    
                                     </select>
                                     <br/>
                                 <br/>
                                 <label>First Name:
-                                <input type="text" name="title" size="30" maxlength="50">
+                                <input type="text" name="fname" size="30" maxlength="50">
                                 </label>
                                 <br/><br/>
                                 <label>Last Name:
-                                <input type="text" name="title" size="30" maxlength="50">
+                                <input type="text" name="lname" size="30" maxlength="50">
                                 </label>
                                 <br/><br/>
                                 <label>Year Born:
-                                        <input type="number" name="numerical_input" size="30" maxlength="100">
+                                        <input type="number" name="year_born" size="30" maxlength="100">
                                 </label>
                                 <br/><br/>
                                 <label>Year Died:
-                                        <input type="number" name="numerical_input" size="30" maxlength="100">
+                                        <input type="number" name="year_died" size="30" maxlength="100">
                                 </label>
                                 <br/>
                                 <br/>
@@ -53,20 +52,16 @@
                             <th>Year Released</th>
                             <th>Runtime</th>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Mean Girls</td>
-                            <td>English</td>
-                            <td>2021</td>
-                            <td>127</td>
-                        </tr>
-                        <tr>
-                            <td>0</td>
-                            <td>Star Wars</td>
-                            <td>English</td>
-                            <td>2021</td>
-                            <td>130</td>
-                        </tr>
+			{% for r in rows %}
+			<tr>
+			  <td> {{ r.0 }}</td>
+			  <td> {{ r[1] }}</td>
+			  <td> {{ r[2] }}</td>
+			  <td> {{ r[3] }}</td>
+			  <td> {{ r[4] }}</td>
+			  <td><button class="deleteButton">DELETE</button></td>
+			</tr>
+			{% endfor %}
                     </tbody>
                 </table>
             </div>
