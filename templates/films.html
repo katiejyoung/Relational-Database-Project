@@ -29,7 +29,7 @@
             </table>
         </div>
         <div>
-            <form action="#" method="post" class="addFilm" style="width: 50%;">
+            <form action="{{ url_for('films') }}" method="post" class="addFilm" style="width: 50%;">
                 <fieldset>
                     <legend>Add a Film to the Database</legend>
                     <br/>
@@ -40,25 +40,24 @@
                     <br/>
                     <p>Language</p>
                     <label>
-                        <input type="radio" name="language" value="yes" />English
-                    </label>
+                        <input type="radio" name="language" value="English" />English</label>
                     <br/>
                     <label>
-                        <input type="radio" name="language" value="yes" />Spanish</label>
+                        <input type="radio" name="language" value="Spanish" />Spanish</label>
                     <br/>
                     <label>
-                        <input type="radio" name="language" value="yes" />French</label>
+                        <input type="radio" name="language" value="French" />French</label>
                     <br/><br/>
                     <label>Year:
-                            <input type="number" name="numerical_input" size="30" maxlength="100">
+                            <input type="number" name="year" size="30" maxlength="100">
                     </label>
                     <br/>
                     <br/>
                     <label>Runtime (minutes):
-                      <input type="number" name="numerical_input" size="50" maxlength="100">
+                      <input type="number" name="runtime" size="50" maxlength="100">
                     </label>
                     <br/><br/>
-
+		    <input type="submit" value="Submit" />
                 </fieldset>
             </form>
         </div>

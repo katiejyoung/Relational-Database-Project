@@ -11,10 +11,22 @@ webapp.secret_key = 'vxBQYZpvBn'
 def home():
     return render_template('index.html')
 
-@webapp.route('/films')
+@webapp.route('/films', methods=['POST','GET'])
 #the name of this function is just a cosmetic thing
 def films():
     db_connection = connect_to_database()
+
+    if request.method == 'POST':
+        # Film being added
+        title = request.form['title']
+        language = request.form['language']
+        year = request.form['year']
+        runtime = request.form['runtime']
+        insert_query = 'INSERT INTO film (title, language, year, runtime) VALUES (%s,%s,%s,%s)'
+        data = (title, language, year, runtime)
+        execute_query(db_connection, insert_query, data)
+       #return ('Film added!');
+        
     query = "SELECT id, title, language, year, runtime from film;"
     result = execute_query(db_connection, query).fetchall();
     print(result)
