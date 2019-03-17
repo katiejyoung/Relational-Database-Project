@@ -16,7 +16,7 @@ def home():
 def films():
     db_connection = connect_to_database()
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.form['deleteButton'] == '':
         # Film being added
         title = request.form['title']
         language = request.form['language']
@@ -26,11 +26,11 @@ def films():
         data = (title, language, year, runtime)
         execute_query(db_connection, insert_query, data)
         flash('Film added!');
-    #elif request.method == 'GET':
-       # Film being deleted
-    #    id_to_delete = request.form['DELETE']
-    #    if id_to_delete != '':
-    #        webapp.logger.error(id_to_delete)
+    elif request.method == 'POST':
+        # Film being deleted
+        deleteID = request.form['deleteButton']
+        delete_query = "DELETE FROM film WHERE id = " + deleteID + ";"
+        execute_query(db_connection, delete_query);
 
     # Display films in DB
     query = "SELECT id, title, language, year, runtime from film;"

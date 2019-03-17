@@ -22,8 +22,11 @@
 		      <td> {{ r[2] }}</td>
 		      <td> {{ r[3] }}</td>
 		      <td> {{ r[4] }}</td>
-		      <td><!--<form action="{{ url_for('films') }}" method="GET">
-			  </form>--><button class="deleteButton">DELETE</button></td>
+		      <form action="{{ url_for('films') }}" method="post">
+			    <td>
+			      <button name="deleteButton" type="submit" value="{{ r[0] }}">DELETE</button>
+			    </td>
+		      </form>
 		    </tr>
 		    {% endfor %}
                 </tbody>
