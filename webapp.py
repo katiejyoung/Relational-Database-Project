@@ -113,21 +113,61 @@ def awards():
     result2 = execute_query(db_connection, query2).fetchall();
     return render_template('awards.html', awards=result, films=film_results, award_id=award_selected, rows=result2);
 
+# @webapp.route('/actors', methods=['POST','GET'])
+# def actors():
+#     if request.method == 'POST':
+#         actor_selected = request.form.get('actor_select');
+#     else:
+#         actor_selected = 1
+		
+#     id = actor_selected
+#     db_connection = connect_to_database()
+#     query = "SELECT id, last_name FROM actor;"
+#     result = execute_query(db_connection, query).fetchall();
+#     print(result)
+#     query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_actors fa ON f.id = fa.film_id AND fa.actor_id = %s" % (id)
+#     result2 = execute_query(db_connection, query2).fetchall();
+#     return render_template('actors.html', actors=result, actor_id=actor_selected, rows=result2);
+
 @webapp.route('/actors', methods=['POST','GET'])
 def actors():
-    if request.method == 'POST':
-        actor_selected = request.form.get('actor_select');
-    else:
-        actor_selected = 1
-		
-    id = actor_selected
+    actor_selected = 1 # Default selected actor unless otherwise specified
     db_connection = connect_to_database()
+
+    if request.method == 'POST' and request.form.get('actor_select') != None:
+        # Filter or update query
+        actor_selected = request.form.get('actor_select')
+    elif request.method == 'POST' and request.form.get('composite_film_select') != None:
+        # Adding relationship to composite table film_direction
+        film_selected = request.form.get('composite_film_select')
+        actor_selected = request.form.get('composite_film_actor_select')
+        composite_insert_query = 'INSERT INTO film_actors (actor_id, film_id) VALUES (%s,%s)'
+        data = (actor_selected, film_selected)
+        print("Executing query")
+        execute_query(db_connection, composite_insert_query, data)
+    elif request.method == 'POST' and request.form.get('fname_insert') != None:
+        # Adding new actor to actor table
+        first_name = request.form['fname_insert']
+        last_name = request.form['lname_insert']
+        year_born = request.form['year_born_insert']
+        year_died = request.form['year_died_insert']
+        insert_query = 'INSERT INTO actor (first_name, last_name, year_born, year_died) VALUES (%s,%s,%s,%s)'
+        data = (first_name, last_name, year_born, year_died)
+        execute_query(db_connection, insert_query, data)
+
+    # Populate Actor Dropdown
     query = "SELECT id, last_name FROM actor;"
     result = execute_query(db_connection, query).fetchall();
     print(result)
-    query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_actors fa ON f.id = fa.film_id AND fa.actor_id = %s" % (id)
+
+    # Populate Film Dropdown
+    film_query = "SELECT id, title FROM film;"
+    film_results = execute_query(db_connection, film_query).fetchall()
+
+    # Populate Films with Selected Director Table
+    query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_actors fa ON f.id = fa.film_id AND fa.actor_id = %s" % (actor_selected)
     result2 = execute_query(db_connection, query2).fetchall();
-    return render_template('actors.html', actors=result, actor_id=actor_selected, rows=result2);
+    return render_template('actors.html', actors=result, actor_id=actor_selected, films=film_results, rows=result2);
 
 @webapp.route('/directors', methods=['POST','GET'])
 def directors():
