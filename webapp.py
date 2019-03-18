@@ -16,7 +16,7 @@ def home():
 def films():
     db_connection = connect_to_database()
 
-    if request.method == 'POST' and request.form['deleteButton'] == '':
+    if request.method == 'POST' and request.form.get('deleteButton') == None:
         # Film being added
         title = request.form['title']
         language = request.form['language']
