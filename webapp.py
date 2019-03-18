@@ -113,22 +113,6 @@ def awards():
     result2 = execute_query(db_connection, query2).fetchall();
     return render_template('awards.html', awards=result, films=film_results, award_id=award_selected, rows=result2);
 
-# @webapp.route('/actors', methods=['POST','GET'])
-# def actors():
-#     if request.method == 'POST':
-#         actor_selected = request.form.get('actor_select');
-#     else:
-#         actor_selected = 1
-		
-#     id = actor_selected
-#     db_connection = connect_to_database()
-#     query = "SELECT id, last_name FROM actor;"
-#     result = execute_query(db_connection, query).fetchall();
-#     print(result)
-#     query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_actors fa ON f.id = fa.film_id AND fa.actor_id = %s" % (id)
-#     result2 = execute_query(db_connection, query2).fetchall();
-#     return render_template('actors.html', actors=result, actor_id=actor_selected, rows=result2);
-
 @webapp.route('/actors', methods=['POST','GET'])
 def actors():
     actor_selected = 1 # Default selected actor unless otherwise specified
