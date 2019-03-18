@@ -52,19 +52,20 @@
 
         <div class="bottomBox">
             <div><h3>Don't see a film in this genre? Add it here.</h3></div>
-            <form action="#" method="POST">
+            <form action="{{ url_for('genre') }}" method="POST">
                 <fieldset>
                     <p>Select Film</p>
-                        <select name="film">
-                            <option value="film">Mean Girls</option>
-                            <option value="film">Star Wars</option>
-                        </select>
+                    <select name="composite_film_select">
+                        {% for f in films %}
+                        <option value="{{ f[0] }}">{{ f[1] }}</option>
+                        {% endfor %}
+                    </select>
                     <p>Select Genre</p>
-                        <select name="genre">
-                            <option value="genre">Action</option>
-                            <option value="genre">Romance</option>
-                            <option value="genre">SciFi</option>
-                        </select>
+                    <select name="composite_genre_select">
+                        {% for g in genres %}
+                        <option value="{{ g[0] }}">{{ g[1] }}</option>
+                        {% endfor %}
+                    </select>
                         <br/><br/><br/>
                     <input type="submit" value="Submit"/>
                     <br/>
@@ -74,15 +75,15 @@
 
         <div class = "bottomBox">
                 <div><h3>Add a Genre to the Database</h3></div>
-                <form action="#" method="post" style="text-align: left;">
+                <form action="{{ url_for('genre') }}" method="post" style="text-align: left;">
                     <fieldset>
                         <br/>
                         <label>Title:
-                          <input type="text" name="title" size="50" maxlength="100">
+                          <input type="text" name="name" size="50" maxlength="100">
                         </label>
                         <br/><br/>
                         <label>Description:
-                                <input type="text" name="title" size="50" maxlength="1000">
+                          <input type="text" name="description" size="50" maxlength="1000">
                         </label>
                         <br/><br/>
                         <input type="submit" value="Submit" />

@@ -40,18 +40,39 @@ def films():
 
 @webapp.route('/genre', methods=['POST','GET'])
 def genre():
-    if request.method == 'POST':
-        genre_selected = request.form.get('genre_select');
-    else:
-        genre_selected = 1
-    
     db_connection = connect_to_database()
-    query = "SELECT id, name FROM genre;"
+    genre_selected = 1 # Default genre for showing films if not otherwise specified
+    
+    if request.method == 'POST' and request.form.get('composite_film_select') != None:
+        # Add relationship into the film_genre composite table
+        film_selected = request.form.get('composite_film_select')
+        genre_selected = request.form.get('composite_genre_select')
+        composite_insert_query = 'INSERT INTO film_genres (genre_id, film_id) VALUES (%s,%s)'
+        data = (genre_selected, film_selected)
+        print("Executing query")
+        execute_query(db_connection, composite_insert_query, data)
+    elif request.method == 'POST' and request.form.get('name') != None:
+        # Add genre to genre table
+        name = request.form['name']
+        description = request.form['description']
+        insert_query = 'INSERT INTO genre (name, description) VALUES (%s,%s)'
+        data = (name, description)
+        execute_query(db_connection, insert_query, data)
+    elif request.method == 'POST':
+        # If this is not an INSERT, just show the films in selected genre
+        genre_selected = request.form.get('genre_select')
+    
+    query = "SELECT id, name FROM genre;" # Genre dropdown
     result = execute_query(db_connection, query).fetchall();
     print(result)
+
+    film_query = "SELECT id, title FROM film;" # Film dropdown
+    film_results = execute_query(db_connection, film_query).fetchall()
+
+    # Show films in given genre
     query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_genres g ON f.id = g.film_id AND g.genre_id = %s" % (genre_selected)
     result2 = execute_query(db_connection, query2).fetchall();
-    return render_template('genre.html', genres=result, genre_id=genre_selected, rows=result2);
+    return render_template('genre.html', genres=result, films=film_results, genre_id=genre_selected, rows=result2);
 
 @webapp.route('/awards', methods=['POST','GET'])
 def awards():
