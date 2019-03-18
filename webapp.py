@@ -111,16 +111,35 @@ def actors():
 @webapp.route('/directors', methods=['POST','GET'])
 def directors():
     valid_update_query = False
+    director_selected = 1 # Default selected director unless otherwise specified
+    db_connection = connect_to_database()
     
-    if request.method == 'POST':
+    if request.method == 'POST' and request.form.get('director_select') != None:
+        # Filter or update query
         director_selected = request.form.get('director_select');
         first_name = request.form['fname']
         last_name = request.form['lname']
         year_born = request.form['year_born']
         year_died = request.form['year_died']
         valid_update_query = True
+    elif request.method == 'POST' and request.form.get('composite_film_select') != None:
+        # Adding relationship to composite table film_direction
+        film_selected = request.form.get('composite_film_select')
+        director_selected = request.form.get('composite_film_director_select')
+        composite_insert_query = 'INSERT INTO film_direction (director_id, film_id) VALUES (%s,%s)'
+        data = (director_selected, film_selected)
+        print("Executing query")
+        execute_query(db_connection, composite_insert_query, data)
+    elif request.method == 'POST' and request.form.get('fname_insert') != None:
+        # Adding new director to director table
+        first_name = request.form['fname_insert']
+        last_name = request.form['lname_insert']
+        year_born = request.form['year_born_insert']
+        year_died = request.form['year_died_insert']
+        insert_query = 'INSERT INTO director (first_name, last_name, year_born, year_died) VALUES (%s,%s,%s,%s)'
+        data = (first_name, last_name, year_born, year_died)
+        execute_query(db_connection, insert_query, data)
     else:
-        director_selected = 1
         valid_update_query = False
 
     # If the user has potentially entered UPDATE information, prepare the UPDATE query
@@ -147,9 +166,7 @@ def directors():
         elif num_args >= 1: # If one or more arguments, strip trailing comma
             update_string = update_string.rstrip(', ') + ' '
     
-    # If this has proven to be a UPDATE query, perform it
-    db_connection = connect_to_database()
-    
+    # If this has proven to be a UPDATE query, perform it    
     if valid_update_query:
         update_query = "UPDATE director SET " + update_string + "WHERE id = %s" % (director_selected) + ";"
         webapp.logger.error(update_query)
@@ -160,12 +177,16 @@ def directors():
         #if fname = '' || lname = '' || year_born = '':
         #    valid_query = False
 
-    # Populate Film Dropdown
+    # Populate Director Dropdown
     query = "SELECT id, last_name FROM director;"
     result = execute_query(db_connection, query).fetchall();
     print(result)
+
+    # Populate Film Dropdown
+    film_query = "SELECT id, title FROM film;"
+    film_results = execute_query(db_connection, film_query).fetchall()
     
     # Populate Films with Selected Director Table
     query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_direction d ON f.id = d.film_id AND d.director_id = %s" % (director_selected)
     result2 = execute_query(db_connection, query2).fetchall();
-    return render_template('directors.html', directors=result, director_id=director_selected, rows=result2);
+    return render_template('directors.html', directors=result, director_id=director_selected, films=film_results, rows=result2);
