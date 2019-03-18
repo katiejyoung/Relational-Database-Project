@@ -64,7 +64,7 @@ def genre():
 
     # Genre dropdown
     query = "SELECT id, name FROM genre;"
-    result = execute_query(db_connection, query).fetchall();
+    result = execute_query(db_connection, query).fetchall()
     print(result)
 
     # Film dropdown
@@ -73,24 +73,45 @@ def genre():
 
     # Show films in given genre
     query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_genres g ON f.id = g.film_id AND g.genre_id = %s" % (genre_selected)
-    result2 = execute_query(db_connection, query2).fetchall();
-    return render_template('genre.html', genres=result, films=film_results, genre_id=genre_selected, rows=result2);
+    result2 = execute_query(db_connection, query2).fetchall()
+    return render_template('genre.html', genres=result, films=film_results, genre_id=genre_selected, rows=result2)
 
 @webapp.route('/awards', methods=['POST','GET'])
 def awards():
-    if request.method == 'POST':
-        award_selected = request.form.get('award_select');
-    else:
-        award_selected = 1
-		
-    id = award_selected
     db_connection = connect_to_database()
+    award_selected = 1
+
+    if request.method == 'POST' and request.form.get('composite_film_select') != None:
+        film_selected = request.form.get('composite_film_select')
+        award_selected = request.form.get('composite_award_select')
+        composite_insert_query = 'INSERT INTO film_awards (award_id, film_id) VALUES (%s,%s)'
+        data = (award_selected, film_selected)
+        print("Executing query")
+        execute_query(db_connection, composite_insert_query, data)
+    elif request.method == 'POST' and request.form.get('title') != None:
+        # Add award to award table
+        title = request.form['title']
+        year_issued = request.form['year_issued']
+        insert_query = 'INSERT INTO award (title, year_issued) VALUES (%s,%s)'
+        data = (title, year_issued)
+        execute_query(db_connection, insert_query, data)
+    elif request.method == 'POST':
+        # If this is not an INSERT, just show the films with selected award
+        award_selected = request.form.get('award_select')
+		
+    # Award dropdown
     query = "SELECT id, title FROM award;"
-    result = execute_query(db_connection, query).fetchall();
+    result = execute_query(db_connection, query).fetchall()
     print(result)
-    query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_awards a ON f.id = a.film_id AND a.award_id = %s" % (id)
+
+    # Film dropdown
+    film_query = "SELECT id, title FROM film;"
+    film_results = execute_query(db_connection, film_query).fetchall()
+
+    # Show films with given award
+    query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_awards a ON f.id = a.film_id AND a.award_id = %s" % (award_selected)
     result2 = execute_query(db_connection, query2).fetchall();
-    return render_template('awards.html', awards=result, award_id=award_selected, rows=result2);
+    return render_template('awards.html', awards=result, films=film_results, award_id=award_selected, rows=result2);
 
 @webapp.route('/actors', methods=['POST','GET'])
 def actors():
