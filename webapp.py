@@ -61,12 +61,14 @@ def genre():
     elif request.method == 'POST':
         # If this is not an INSERT, just show the films in selected genre
         genre_selected = request.form.get('genre_select')
-    
-    query = "SELECT id, name FROM genre;" # Genre dropdown
+
+    # Genre dropdown
+    query = "SELECT id, name FROM genre;"
     result = execute_query(db_connection, query).fetchall();
     print(result)
 
-    film_query = "SELECT id, title FROM film;" # Film dropdown
+    # Film dropdown
+    film_query = "SELECT id, title FROM film;"
     film_results = execute_query(db_connection, film_query).fetchall()
 
     # Show films in given genre
