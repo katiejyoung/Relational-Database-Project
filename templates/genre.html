@@ -52,19 +52,20 @@
 
         <div class="bottomBox">
             <div><h3>Don't see a film in this genre? Add it here.</h3></div>
-            <form action="#" method="POST">
+            <form action="/film_genre" method="POST">
                 <fieldset>
                     <p>Select Film</p>
-                        <select name="film">
-                            <option value="film">Mean Girls</option>
-                            <option value="film">Star Wars</option>
-                        </select>
+                    <select name="film_select">
+                        {% for f in films %}
+                        <option value="{{ f[0] }}">{{ f[1] }}</option>
+                        {% endfor %}
+                    </select>
                     <p>Select Genre</p>
-                        <select name="genre">
-                            <option value="genre">Action</option>
-                            <option value="genre">Romance</option>
-                            <option value="genre">SciFi</option>
-                        </select>
+                    <select name="genre_select">
+                        {% for g in genres %}
+                        <option value="{{ g[0] }}">{{ g[1] }}</option>
+                        {% endfor %}
+                    </select>
                         <br/><br/><br/>
                     <input type="submit" value="Submit"/>
                     <br/>

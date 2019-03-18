@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash
+from flask import Flask, render_template, url_for, flash, request, redirect
 from flask import request
 from db_connector.db_connector import connect_to_database, execute_query
 import logging
@@ -41,7 +41,7 @@ def films():
 @webapp.route('/genre', methods=['POST','GET'])
 def genre():
     if request.method == 'POST':
-        genre_selected = request.form.get('genre_select');
+        genre_selected = request.form.get('genre_select')
     else:
         genre_selected = 1
     
@@ -49,9 +49,28 @@ def genre():
     query = "SELECT id, name FROM genre;"
     result = execute_query(db_connection, query).fetchall();
     print(result)
+    query1 = "SELECT id, title FROM film;"
+    result1 = execute_query(db_connection, query1).fetchall()
     query2 = "SELECT id, title, language, year, runtime FROM film f INNER JOIN film_genres g ON f.id = g.film_id AND g.genre_id = %s" % (genre_selected)
     result2 = execute_query(db_connection, query2).fetchall();
-    return render_template('genre.html', genres=result, genre_id=genre_selected, rows=result2);
+    return render_template('genre.html', genres=result, genre_id=genre_selected, films=result1, rows=result2);
+
+@webapp.route('/film_genre', methods=['POST','GET'])
+def add_film_to_genre():
+    db_connection = connect_to_database()
+
+    # if request.method == 'POST':
+    film_selected = request.form.get('film_select')
+    genre_selected = request.form.get('genre_select')
+    insert_query = 'INSERT INTO film_genres (genre_id, film_id) VALUES (%s,%s)'
+    data = (film_selected, genre_selected)
+    print("Executing query")
+    execute_query(db_connection, insert_query, data)
+    # else:
+    #     film_selected = 1
+    #     genre_selected = 1
+
+    return redirect(url_for('genre'))
 
 @webapp.route('/awards', methods=['POST','GET'])
 def awards():
@@ -88,7 +107,7 @@ def actors():
 @webapp.route('/directors', methods=['POST','GET'])
 def directors():
     valid_update_query = False
-    
+    print("HI")
     if request.method == 'POST':
         director_selected = request.form.get('director_select');
         first_name = request.form['fname']
