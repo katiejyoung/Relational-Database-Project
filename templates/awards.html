@@ -11,7 +11,7 @@
                     <div class="entityHeader">
                             <div><h3>Select an Award Below</h3></div>
                     </div>
-                    <form action="#" method="post">
+                    <form action="{{ url_for('awards') }}" method="post">
                             <fieldset >
                                     <legend>Select Award</legend>
                                     <select name="award_select">
@@ -52,18 +52,19 @@
 
         <div class="bottomBox">
             <div><h3>Don't see a film that has received this award? Add it here.</h3></div>
-            <form action="#" method="POST">
+            <form action="{{ url_for('awards') }}" method="POST">
                 <fieldset>
                     <p>Select Film</p>
-                        <select name="film">
-                            <option value="film">Mean Girls</option>
-                            <option value="film">Star Wars</option>
-                        </select>
+                    <select name="composite_film_select">
+                        {% for f in films %}
+                        <option value="{{ f[0] }}">{{ f[1] }}</option>
+                        {% endfor %}
+                    </select>
                     <p>Select Award</p>
-                        <select name="award">
-                            <option value="award">Academy</option>
-                            <option value="award">Pulitzer</option>
-                            <option value="award">Grammy</option>
+                        <select name="composite_award_select">
+                            {% for a in awards %}
+                            <option value="{{ a[0] }}">{{ a[1] }}</option>
+                            {% endfor %}
                         </select>
                         <br/><br/><br/>
                     <input type="submit" value="Submit"/>
@@ -74,7 +75,7 @@
 
         <div class = "bottomBox">
                 <div><h3>Add an Award to the database</h3></div>
-                <form action="#" method="post" style="text-align: left;">
+                <form action="{{ url_for('awards') }}" method="post" style="text-align: left;">
                     <fieldset>
                         <br/>
                         <label>Title:
@@ -82,7 +83,7 @@
                         </label>
                         <br/><br/>
                         <label>Year:
-                                <input type="number" name="numerical_input" size="30" maxlength="100">
+                                <input type="number" name="year_issued" size="30" maxlength="100">
                         </label>
                         <br/><br/>
                         <input type="submit" value="Submit" />

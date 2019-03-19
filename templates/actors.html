@@ -15,10 +15,10 @@
                         <fieldset >
                             <legend>Select Actor</legend>
                                 <select name="actor_select">
-				{% for a in actors %}
-				<option value="{{ a[0] }}">{{ a[1] }}</option>
-				{% endfor %}
-                                    </select>
+                                    {% for a in actors %}
+                                    <option value="{{ a[0] }}">{{ a[1] }}</option>
+                                    {% endfor %}
+                                </select>
                             <br/>
                             <br/>
                             <!--<label>First Name:
@@ -71,18 +71,19 @@
 
         <div class="bottomBox">
             <div><h3>Add a Contributor Here</h3></div>
-            <form action="#" method="POST">
+            <form action="{{ url_for('actors') }}" method="POST">
                 <fieldset>
                     <p>Select Film</p>
-                        <select name="film">
-                            <option value="film">Mean Girls</option>
-                            <option value="film">Star Wars</option>
+                        <select name="composite_film_select">
+                            {% for f in films %}
+                            <option value="{{ f[0] }}">{{ f[1] }}</option>
+                            {% endfor %}
                         </select>
                         <p>Select Actor</p>
-                        <select name="actor">
-                            <option value="actor">Cooper</option>
-                            <option value="actor">Wilson</option>
-                            <option value="actor">Pitt</option>
+                        <select name="composite_film_actor_select">
+                            {% for a in actors %}
+                            <option value="{{ a[0] }}">{{ a[1] }}</option>
+                            {% endfor %}
                         </select>
                         <br/><br/><br/>
                     <input type="submit" value="Submit"/>
@@ -92,23 +93,23 @@
         </div>
         <div class = "bottomBox">
             <div><h3>Add an Actor to the Database</h3></div>
-            <form action="#" method="post" style="text-align: left;">
+            <form action="{{ url_for('actors') }}" method="post" style="text-align: left;">
                 <fieldset>
                     <br/>
                     <label>First Name:
-                      <input type="text" name="title" size="30" maxlength="50">
+                      <input type="text" name="fname_insert" size="30" maxlength="50">
                     </label>
                     <br/><br/>
                     <label>Last Name:
-                      <input type="text" name="title" size="30" maxlength="50">
+                      <input type="text" name="lname_insert" size="30" maxlength="50">
                     </label>
                     <br/><br/>
                     <label>Year Born:
-                            <input type="number" name="numerical_input" size="30" maxlength="100">
+                            <input type="number" name="year_born_insert" size="30" maxlength="100">
                     </label>
                     <br/><br/>
                     <label>Year Died:
-                            <input type="number" name="numerical_input" size="30" maxlength="100">
+                            <input type="number" name="year_died_insert" size="30" maxlength="100">
                     </label>
                     <br/>
                     <br/>
